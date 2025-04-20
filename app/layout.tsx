@@ -9,15 +9,15 @@ import { ChatbotProvider } from "./chatbot-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "CollegeSphere - #1 JEE Main College Predictor 2024 | Find Your Dream Engineering College",
+  title: "CollegeSphere - #1 JEE Main College Predictor 2025 | Find Your Dream Engineering College",
   description:
-    "Get accurate JEE Main college predictions based on latest JOSAA 2024 counseling data. Explore 100+ engineering colleges, detailed branch insights, and personalized mentorship from IITians. Make informed decisions about your engineering future with 99% accuracy!",
+    "Get accurate JEE Main college predictions based on latest JOSAA 2025 counseling data. Explore 100+ engineering colleges, detailed branch insights, and personalized mentorship from IITians. Make informed decisions about your engineering future with 99% accuracy!",
   keywords:
-    "JEE Main college predictor, engineering college predictor, IIT JEE, NIT, IIIT, GFTI, JOSAA counseling 2024, JEE rank predictor, college admission predictor, engineering branches, college cutoffs, JEE Main 2024, JEE Advanced 2024, best engineering colleges in India, IIT admission, NIT admission",
+    "JEE Main college predictor, engineering college predictor, IIT JEE, NIT, IIIT, GFTI, JOSAA counseling 2025, JEE rank predictor, college admission predictor, engineering branches, college cutoffs, JEE Main 2025, JEE Advanced 2025, best engineering colleges in India, IIT admission, NIT admission",
   openGraph: {
-    title: "CollegeSphere - #1 JEE Main College Predictor 2024 | Find Your Dream Engineering College",
+    title: "CollegeSphere - #1 JEE Main College Predictor 2025 | Find Your Dream Engineering College",
     description:
-      "AI-powered college predictions based on latest JOSAA 2024 data. Explore 100+ engineering colleges, detailed branch insights, and get personalized mentorship from IITians. Plan your engineering future with confidence!",
+      "AI-powered college predictions based on latest JOSAA 2025 data. Explore 100+ engineering colleges, detailed branch insights, and get personalized mentorship from IITians. Plan your engineering future with confidence!",
     url: "https://collegesphere.vercel.app",
     siteName: "CollegeSphere",
     images: [
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CollegeSphere - #1 JEE Main College Predictor 2024",
+    title: "CollegeSphere - #1 JEE Main College Predictor 2025",
     description:
-      "AI-powered college predictions based on latest JOSAA 2024 data. Find your dream engineering college with 99% accuracy!",
+      "AI-powered college predictions based on latest JOSAA 2025 data. Find your dream engineering college with 99% accuracy!",
     images: ["https://collegesphere.vercel.app/images/mainlogo.png"],
     creator: "@collegesphere",
     site: "@collegesphere",
