@@ -497,6 +497,16 @@ export default function Home() {
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li>
+                  <Link href="/about" className="text-gray-600 hover:text-purple-600 transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-gray-600 hover:text-purple-600 transition-colors">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
                   <Link href="/privacy" className="text-gray-600 hover:text-purple-600 transition-colors">
                     Privacy Policy
                   </Link>
@@ -645,7 +655,7 @@ export default function Home() {
               style={{ transform: "rotateY(180deg)" }}
             >
               <path
-                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.2c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
                 fill="url(#gradient)"
               />
               <defs>
@@ -760,6 +770,12 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-2 gap-x-2 gap-y-1 mb-3 text-sm mx-auto max-w-xs">
+                <Link href="/about" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  About Us
+                </Link>
+                <Link href="/contact" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  Contact Us
+                </Link>
                 <Link href="/privacy" className="text-gray-600 hover:text-purple-600 transition-colors">
                   Privacy Policy
                 </Link>
@@ -791,7 +807,7 @@ export default function Home() {
                     strokeLinejoin="round"
                     className="mx-1"
                   >
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                   </svg>
                   in India
                 </span>
