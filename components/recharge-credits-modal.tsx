@@ -3,8 +3,10 @@
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { CheckCircle, CreditCard, Loader2, Zap } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface RechargeCreditsModalProps {
   isOpen: boolean
@@ -16,6 +18,14 @@ interface RechargeCreditsModalProps {
   onSuccess?: (newCredits: number) => void
 }
 
+// Predefined credit packages
+const CREDIT_PACKAGES = [
+  { id: 1, credits: 100, amount: 99, popular: false, description: "Basic package" },
+  { id: 2, credits: 500, amount: 499, popular: true, description: "Most popular" },
+  { id: 3, credits: 1000, amount: 899, popular: false, description: "Best value" },
+  { id: 4, credits: 2000, amount: 1699, popular: false, description: "Premium package" },
+]
+
 export function RechargeCreditsModal({
   isOpen,
   onClose,
@@ -25,35 +35,25 @@ export function RechargeCreditsModal({
   userMobile = "",
   onSuccess,
 }: RechargeCreditsModalProps) {
-  const [amount, setAmount] = useState<number>(499)
-  const [credits, setCredits] = useState<number>(500)
+  const [selectedPackage, setSelectedPackage] = useState(CREDIT_PACKAGES[1])
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState("")
+  const [paymentStep, setPaymentStep] = useState<"select" | "processing" | "success" | "error">("select")
 
   // GST calculation (18%)
   const GST_RATE = 0.18
-  const baseAmount = Number.parseFloat((amount / (1 + GST_RATE)).toFixed(2))
-  const gstAmount = Number.parseFloat((amount - baseAmount).toFixed(2))
+  const baseAmount = Number.parseFloat((selectedPackage.amount / (1 + GST_RATE)).toFixed(2))
+  const gstAmount = Number.parseFloat((selectedPackage.amount - baseAmount).toFixed(2))
 
-  const handleAmountChange = (value: number) => {
-    setAmount(value)
-    // Simple 1:1 conversion (can be adjusted based on your pricing model)
-    setCredits(Math.floor(value))
-  }
-
-  const handleCreditsChange = (value: number) => {
-    setCredits(value)
-    // Simple 1:1 conversion (can be adjusted based on your pricing model)
-    setAmount(value)
+  const resetState = () => {
+    setPaymentStep("select")
+    setMessage("")
+    setIsLoading(false)
   }
 
   const initiatePayment = async () => {
-    if (amount < 1) {
-      setMessage("Please enter a valid amount")
-      return
-    }
-
     setIsLoading(true)
+    setPaymentStep("processing")
     setMessage("Creating order...")
 
     try {
@@ -64,8 +64,8 @@ export function RechargeCreditsModal({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount,
-          credits,
+          amount: selectedPackage.amount,
+          credits: selectedPackage.credits,
           userId,
           userName,
           userEmail,
@@ -87,10 +87,10 @@ export function RechargeCreditsModal({
         // Initialize Razorpay
         const options = {
           key: orderData.keyId,
-          amount: amount * 100,
+          amount: selectedPackage.amount * 100,
           currency: "INR",
           name: "JEE Predictor",
-          description: `Purchase ${credits} credits`,
+          description: `Purchase ${selectedPackage.credits} credits`,
           order_id: orderData.orderId,
           prefill: {
             name: userName,
@@ -99,10 +99,10 @@ export function RechargeCreditsModal({
           },
           notes: {
             userId,
-            credits,
+            credits: selectedPackage.credits,
           },
           theme: {
-            color: "#3399cc",
+            color: "#7c3aed",
           },
           handler: async (response: any) => {
             try {
@@ -116,24 +116,25 @@ export function RechargeCreditsModal({
                   orderId: response.razorpay_order_id,
                   signature: response.razorpay_signature,
                   userId,
-                  credits,
-                  amount,
+                  credits: selectedPackage.credits,
+                  amount: selectedPackage.amount,
                 }),
               })
 
               const verifyData = await verifyResponse.json()
 
               if (verifyData.success) {
-                alert(`Payment successful! Added ${credits} credits to your account.`)
-
+                setPaymentStep("success")
                 if (onSuccess) {
                   onSuccess(verifyData.newCredits)
                 }
               } else {
-                alert(`Payment verification failed: ${verifyData.error || "Please contact support"}`)
+                setPaymentStep("error")
+                setMessage(verifyData.error || "Payment verification failed")
               }
             } catch (error) {
-              alert("Payment verification error: Please contact support")
+              setPaymentStep("error")
+              setMessage("Payment verification error")
             }
           },
         }
@@ -141,9 +142,10 @@ export function RechargeCreditsModal({
         const razorpay = new window.Razorpay(options)
         razorpay.open()
       } else {
-        alert("Razorpay SDK failed to load. Please check your internet connection.")
+        throw new Error("Razorpay SDK failed to load")
       }
     } catch (error) {
+      setPaymentStep("error")
       setMessage(error instanceof Error ? error.message : "Payment initiation failed")
     } finally {
       setIsLoading(false)
@@ -152,58 +154,113 @@ export function RechargeCreditsModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Recharge Credits</DialogTitle>
-          <DialogDescription>Add credits to your account to use premium features.</DialogDescription>
+          <DialogTitle className="text-2xl">Recharge Credits</DialogTitle>
+          <DialogDescription>
+            Add credits to your account to access premium features and personalized services.
+          </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="amount" className="text-right">
-              Amount (₹)
-            </Label>
-            <Input
-              id="amount"
-              type="number"
-              value={amount}
-              onChange={(e) => handleAmountChange(Number.parseFloat(e.target.value))}
-              className="col-span-3"
-              min="1"
-            />
-          </div>
 
-          {/* Display GST breakdown */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-muted-foreground">Base Amount</Label>
-            <div className="col-span-3 text-sm text-muted-foreground">₹{baseAmount.toFixed(2)}</div>
-          </div>
+        {paymentStep === "select" && (
+          <div className="py-4 space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              {CREDIT_PACKAGES.map((pkg) => (
+                <Card
+                  key={pkg.id}
+                  className={cn(
+                    "cursor-pointer transition-all hover:border-primary/50 hover:shadow-md",
+                    selectedPackage.id === pkg.id ? "border-2 border-primary shadow-sm" : "border border-border",
+                  )}
+                  onClick={() => setSelectedPackage(pkg)}
+                >
+                  <CardContent className="p-4 flex flex-col items-center text-center">
+                    {pkg.popular && <Badge className="bg-primary text-white mb-2">Most Popular</Badge>}
+                    <div className="text-3xl font-bold mb-1">{pkg.credits}</div>
+                    <div className="text-sm text-muted-foreground mb-3">Credits</div>
+                    <div className="text-xl font-semibold">₹{pkg.amount}</div>
+                    <div className="text-xs text-muted-foreground mt-2">{pkg.description}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-muted-foreground">GST (18%)</Label>
-            <div className="col-span-3 text-sm text-muted-foreground">₹{gstAmount.toFixed(2)}</div>
-          </div>
+            <div className="bg-muted/50 p-4 rounded-lg space-y-2">
+              <h3 className="font-medium">Order Summary</h3>
+              <div className="flex justify-between text-sm">
+                <span>Base amount:</span>
+                <span>₹{baseAmount.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>GST (18%):</span>
+                <span>₹{gstAmount.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between font-medium border-t pt-2 mt-2">
+                <span>Total:</span>
+                <span>₹{selectedPackage.amount.toFixed(2)}</span>
+              </div>
+            </div>
 
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="credits" className="text-right">
-              Credits
-            </Label>
-            <Input
-              id="credits"
-              type="number"
-              value={credits}
-              onChange={(e) => handleCreditsChange(Number.parseInt(e.target.value))}
-              className="col-span-3"
-              min="1"
-            />
-          </div>
+            {message && <div className="text-center p-3 bg-red-50 text-red-600 rounded-md text-sm">{message}</div>}
 
-          {message && <div className="text-center text-sm text-red-500">{message}</div>}
-        </div>
-        <div className="flex justify-end">
-          <Button onClick={initiatePayment} disabled={isLoading}>
-            {isLoading ? "Processing..." : "Pay with Razorpay"}
-          </Button>
-        </div>
+            <Button onClick={initiatePayment} disabled={isLoading} className="w-full py-6 text-base" size="lg">
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
+                </>
+              ) : (
+                <>
+                  <CreditCard className="mr-2 h-4 w-4" /> Pay ₹{selectedPackage.amount}
+                </>
+              )}
+            </Button>
+
+            <div className="text-xs text-center text-muted-foreground">
+              By proceeding, you agree to our Terms of Service and Privacy Policy.
+            </div>
+          </div>
+        )}
+
+        {paymentStep === "processing" && (
+          <div className="py-8 flex flex-col items-center justify-center">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <h3 className="text-lg font-medium">Processing Payment</h3>
+            <p className="text-muted-foreground text-center mt-2">Please wait while we process your payment...</p>
+          </div>
+        )}
+
+        {paymentStep === "success" && (
+          <div className="py-8 flex flex-col items-center justify-center">
+            <div className="bg-green-100 p-3 rounded-full mb-4">
+              <CheckCircle className="h-12 w-12 text-green-600" />
+            </div>
+            <h3 className="text-lg font-medium">Payment Successful!</h3>
+            <p className="text-muted-foreground text-center mt-2">
+              {selectedPackage.credits} credits have been added to your account.
+            </p>
+            <Button className="mt-6" onClick={onClose}>
+              Continue
+            </Button>
+          </div>
+        )}
+
+        {paymentStep === "error" && (
+          <div className="py-8 flex flex-col items-center justify-center">
+            <div className="bg-red-100 p-3 rounded-full mb-4">
+              <Zap className="h-12 w-12 text-red-600" />
+            </div>
+            <h3 className="text-lg font-medium">Payment Failed</h3>
+            <p className="text-red-600 text-center mt-2">{message}</p>
+            <div className="flex gap-3 mt-6">
+              <Button variant="outline" onClick={resetState}>
+                Try Again
+              </Button>
+              <Button variant="ghost" onClick={onClose}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   )

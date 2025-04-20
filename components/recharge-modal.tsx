@@ -9,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -151,16 +150,16 @@ export function RechargeModal({ open, onClose, onSuccess }: RechargeModalProps) 
   const renderSelectStep = () => (
     <>
       <div className="py-4">
-        {/* Desktop view - Tabular layout */}
+        {/* Desktop view - Compact, detailed layout */}
         <div className="hidden md:block overflow-hidden rounded-lg border">
-          <table className="w-full">
+          <table className="w-full text-sm">
             <thead>
               <tr className="bg-muted/50">
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Package</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Credits</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Price</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Savings</th>
-                <th className="px-4 py-3 text-center font-medium text-muted-foreground">Select</th>
+                <th className="px-4 py-3 text-left font-medium">Package</th>
+                <th className="px-4 py-3 text-left font-medium">Credits</th>
+                <th className="px-4 py-3 text-left font-medium">What You Get</th>
+                <th className="px-4 py-3 text-left font-medium">Price</th>
+                <th className="px-4 py-3 text-center font-medium">Select</th>
               </tr>
             </thead>
             <tbody>
@@ -176,43 +175,57 @@ export function RechargeModal({ open, onClose, onSuccess }: RechargeModalProps) 
                 >
                   <td className="px-4 py-3">
                     <div className="font-medium">
-                      {option.credits} Credits
-                      {option.price === 1 && (
+                      {option.credits === 50
+                        ? "Basic"
+                        : option.credits === 100
+                          ? "Standard"
+                          : option.credits === 200
+                            ? "Plus"
+                            : option.credits === 500
+                              ? "Pro"
+                              : "Ultimate"}
+                      {index === 3 && (
                         <Badge
                           variant="secondary"
-                          className="ml-2 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
+                          className="ml-2 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
                         >
-                          Test
+                          Popular
                         </Badge>
                       )}
                     </div>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center">
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+                      <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center mr-2">
                         <span className="font-semibold text-primary">{option.credits}</span>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold">₹{option.price}</span>
-                      {option.discount > 0 && (
-                        <span className="text-sm text-muted-foreground line-through">₹{option.originalPrice}</span>
-                      )}
-                    </div>
+                    <ul className="list-disc list-inside text-xs space-y-1 text-muted-foreground">
+                      <li>Predict up to {Math.floor(option.credits / 10)} colleges based on JEE rank</li>
+                      <li>View detailed info for up to {Math.floor(option.credits / 10)} colleges</li>
+                      <li>Unlimited college saves</li>
+                      {option.credits >= 500 && <li>One-to-one session with top IITians</li>}
+                      {option.credits >= 1000 && <li>Partial JoSAA counseling support</li>}
+                      {option.credits >= 2500 && <li>Complete JoSAA counseling mentorship</li>}
+                    </ul>
                   </td>
                   <td className="px-4 py-3">
-                    {option.discount > 0 ? (
-                      <Badge
-                        variant="secondary"
-                        className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                      >
-                        Save {option.discount}%
-                      </Badge>
-                    ) : (
-                      <span className="text-muted-foreground text-sm">-</span>
-                    )}
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold">₹{option.price}</span>
+                        {option.discount > 0 && (
+                          <span className="text-xs text-muted-foreground line-through">₹{option.originalPrice}</span>
+                        )}
+                      </div>
+                      {option.discount > 0 && (
+                        <span className="text-xs text-green-600">Save ₹{option.originalPrice - option.price}</span>
+                      )}
+                      <span className="text-xs text-muted-foreground">
+                        (₹{(option.price / option.credits).toFixed(2)}/credit)
+                      </span>
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-center">
                     {selectedOption?.credits === option.credits && selectedOption?.price === option.price ? (
@@ -229,56 +242,86 @@ export function RechargeModal({ open, onClose, onSuccess }: RechargeModalProps) 
           </table>
         </div>
 
-        {/* Mobile view - Card layout with improvements */}
+        {/* Mobile view - Compact cards with detailed info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-3">
-          {rechargeOptions.map((option) => (
-            <Card
+          {rechargeOptions.map((option, index) => (
+            <div
               key={option.credits + "-" + option.price}
-              className={`cursor-pointer transition-all ${
+              className={`cursor-pointer transition-all border rounded-lg ${
                 selectedOption?.credits === option.credits && selectedOption?.price === option.price
-                  ? "border-primary ring-2 ring-primary ring-opacity-50"
+                  ? "border-primary ring-1 ring-primary ring-opacity-50 bg-primary/5"
                   : "hover:border-primary/50"
               }`}
               onClick={() => setSelectedOption(option)}
             >
-              <CardContent className="p-4">
-                <div className="flex justify-between items-start mb-2">
+              <div className="p-3">
+                <div className="flex justify-between items-start mb-1">
                   <div>
-                    <div className="text-xl font-bold">{option.credits}</div>
-                    <div className="text-sm text-muted-foreground">Credits</div>
+                    <div className="font-medium flex items-center">
+                      {option.credits === 50
+                        ? "Basic"
+                        : option.credits === 100
+                          ? "Standard"
+                          : option.credits === 200
+                            ? "Plus"
+                            : option.credits === 500
+                              ? "Pro"
+                              : "Ultimate"}
+                      {index === 3 && (
+                        <Badge
+                          variant="secondary"
+                          className="ml-2 text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+                        >
+                          Popular
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="text-xs text-muted-foreground">{option.credits} Credits</div>
                   </div>
                   {selectedOption?.credits === option.credits && selectedOption?.price === option.price && (
-                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <CheckCircle className="h-4 w-4 text-primary" />
                   )}
                 </div>
 
-                <div className="flex items-center gap-2 mt-3">
-                  <span className="text-xl font-semibold">₹{option.price}</span>
-                  {option.discount > 0 && (
-                    <span className="text-sm text-muted-foreground line-through">₹{option.originalPrice}</span>
+                <div className="mt-2 text-xs space-y-0.5 text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3 text-green-600" />
+                    <span>Predict up to {Math.floor(option.credits / 10)} colleges</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3 text-green-600" />
+                    <span>View up to {Math.floor(option.credits / 10)} college details</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3 text-green-600" />
+                    <span>Unlimited college saves</span>
+                  </div>
+                  {option.credits >= 500 && (
+                    <div className="flex items-center gap-1">
+                      <CheckCircle className="h-3 w-3 text-green-600" />
+                      <span>One-to-one IIT counseling</span>
+                    </div>
+                  )}
+                  {option.credits >= 2500 && (
+                    <div className="flex items-center gap-1">
+                      <CheckCircle className="h-3 w-3 text-green-600" />
+                      <span>Full JoSAA mentorship</span>
+                    </div>
                   )}
                 </div>
 
-                <div className="mt-2">
+                <div className="flex items-baseline gap-1 mt-2">
+                  <span className="text-base font-bold">₹{option.price}</span>
                   {option.discount > 0 && (
-                    <Badge
-                      variant="secondary"
-                      className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                    >
-                      Save {option.discount}%
-                    </Badge>
+                    <span className="text-xs text-muted-foreground line-through">₹{option.originalPrice}</span>
                   )}
-                  {option.price === 1 && (
-                    <Badge
-                      variant="secondary"
-                      className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 mt-1"
-                    >
-                      Test Payment
-                    </Badge>
-                  )}
+                  {option.discount > 0 && <span className="text-xs text-green-600 ml-1">(-{option.discount}%)</span>}
                 </div>
-              </CardContent>
-            </Card>
+                <div className="text-xs text-muted-foreground">
+                  ₹{(option.price / option.credits).toFixed(2)}/credit
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>

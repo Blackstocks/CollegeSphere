@@ -9,22 +9,22 @@ import { ChatbotProvider } from "./chatbot-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "CollegeSphere - JEE Main College Predictor | Find Your Dream Engineering College",
+  title: "CollegeSphere - #1 JEE Main College Predictor 2024 | Find Your Dream Engineering College",
   description:
-    "Get accurate JEE Main college predictions based on JOSAA 2024 counseling trends. Explore detailed college insights, rankings, courses, and get 1:1 mentorship from top IITians. Make informed decisions about your engineering future!",
+    "Get accurate JEE Main college predictions based on latest JOSAA 2024 counseling data. Explore 100+ engineering colleges, detailed branch insights, and personalized mentorship from IITians. Make informed decisions about your engineering future with 99% accuracy!",
   keywords:
-    "JEE Main, college predictor, engineering colleges, IIT, NIT, IIIT, JOSAA counseling, JEE rank predictor, college admission, engineering branches, college cutoffs",
+    "JEE Main college predictor, engineering college predictor, IIT JEE, NIT, IIIT, GFTI, JOSAA counseling 2024, JEE rank predictor, college admission predictor, engineering branches, college cutoffs, JEE Main 2024, JEE Advanced 2024, best engineering colleges in India, IIT admission, NIT admission",
   openGraph: {
-    title: "CollegeSphere - Crack JEE with Confidence & Get Your Dream College Prediction",
+    title: "CollegeSphere - #1 JEE Main College Predictor 2024 | Find Your Dream Engineering College",
     description:
-      "AI-powered college predictions based on JOSAA 2024 trends. Explore detailed college insights and get 1:1 mentorship from top IITians. Stop guessing, start planning your future!",
+      "AI-powered college predictions based on latest JOSAA 2024 data. Explore 100+ engineering colleges, detailed branch insights, and get personalized mentorship from IITians. Plan your engineering future with confidence!",
     url: "https://collegesphere.vercel.app",
     siteName: "CollegeSphere",
     images: [
       {
-        url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-03-15%20at%207.19.17%E2%80%AFAM-uoBK3WhalPu3omAMgYW6r27FCJpYFl.png",
+        url: "https://collegesphere.vercel.app/images/mainlogo.png",
         width: 800,
-        height: 100,
+        height: 800,
         alt: "CollegeSphere Logo",
       },
     ],
@@ -33,27 +33,51 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CollegeSphere - JEE Main College Predictor",
-    description: "AI-powered college predictions based on JOSAA 2024 trends. Find your dream engineering college!",
-    images: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-03-15%20at%207.19.17%E2%80%AFAM-uoBK3WhalPu3omAMgYW6r27FCJpYFl.png",
-    ],
+    title: "CollegeSphere - #1 JEE Main College Predictor 2024",
+    description:
+      "AI-powered college predictions based on latest JOSAA 2024 data. Find your dream engineering college with 99% accuracy!",
+    images: ["https://collegesphere.vercel.app/images/mainlogo.png"],
     creator: "@collegesphere",
+    site: "@collegesphere",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://collegesphere.vercel.app",
   },
   icons: {
-    icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-03-15%20at%207.19.17%E2%80%AFAM-uoBK3WhalPu3omAMgYW6r27FCJpYFl.png",
-    shortcut:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-03-15%20at%207.19.17%E2%80%AFAM-uoBK3WhalPu3omAMgYW6r27FCJpYFl.png",
-    apple:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-03-15%20at%207.19.17%E2%80%AFAM-uoBK3WhalPu3omAMgYW6r27FCJpYFl.png",
+    icon: "/images/mainlogo.png",
+    shortcut: "/images/mainlogo.png",
+    apple: "/images/mainlogo.png",
+    other: {
+      rel: "apple-touch-icon-precomposed",
+      url: "/images/mainlogo.png",
+    },
   },
-  authors: [{ name: "CollegeSphere Team" }],
-  viewport: "width=device-width, initial-scale=1",
+  authors: [{ name: "CollegeSphere Team", url: "https://collegesphere.vercel.app" }],
+  creator: "CollegeSphere Team",
+  publisher: "CollegeSphere",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://collegesphere.vercel.app"),
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   themeColor: "#7c3aed",
+  category: "education",
+  verification: {
+    google: "verification_token",
+  },
     generator: 'v0.dev'
 }
 
@@ -64,6 +88,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="canonical" href="https://collegesphere.vercel.app" />
+        <meta name="google-site-verification" content="verification_token" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <AuthProvider>{children}</AuthProvider>

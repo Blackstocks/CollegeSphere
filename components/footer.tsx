@@ -105,9 +105,9 @@ export function Footer() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="mx-1"
+                className="lucide lucide-heart mx-1"
               >
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
               </svg>
               in India
             </span>
@@ -152,7 +152,9 @@ export function Footer() {
           </div>
 
           <div className="text-center relative z-10">
-            <h3 className="text-xl font-bold mb-3 text-gray-800">Connect with us!</h3>
+            <div className="flex justify-center mb-3">
+              <img src="/images/collegespherelogo.png" alt="CollegeSphere Logo" className="h-8 md:h-10" />
+            </div>
 
             <div className="flex justify-center space-x-5 mb-4">
               <a
@@ -233,3 +235,5 @@ export function Footer() {
     </footer>
   )
 }
+
+export default Footer

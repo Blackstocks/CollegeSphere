@@ -76,11 +76,9 @@ export function Header() {
 
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full">
-      <div className="w-full max-w-[1440px] mx-auto flex h-16 sm:h-20 items-center justify-between px-4 md:px-8">
-        <Link href="/" className="font-bold text-2xl md:text-3xl flex items-center space-x-2">
-          <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-            CollegeSphere
-          </span>
+      <div className="w-full max-w-[1440px] mx-auto flex h-20 sm:h-24 items-center justify-between px-4 md:px-8">
+        <Link href="/" className="flex items-center space-x-2">
+          <img src="/images/collegespherelogo.png" alt="CollegeSphere Logo" className="h-14 md:h-20" />
         </Link>
         <div className="flex items-center gap-1 md:gap-4">
           {user ? (
@@ -180,12 +178,8 @@ export function Header() {
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => {
-                      window.location.href = "mailto:collegesphere25@gmail.com"
-                    }}
-                  >
-                    Contact Us
+                  <DropdownMenuItem asChild>
+                    <Link href="/contact">Contact Us</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link href="/terms">Terms and Conditions</Link>

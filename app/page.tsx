@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/header"
@@ -144,6 +146,25 @@ export default function Home() {
 
       {/* Testimonials Marquee Section */}
       <section className="py-20 bg-white relative overflow-hidden">
+        <style jsx global>{`
+  @keyframes marquee-left-fast {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  @keyframes marquee-right-fast {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+  }
+  
+  .animate-marquee-left-fast {
+    animation: marquee-left-fast 15s linear infinite;
+  }
+  
+  .animate-marquee-right-fast {
+    animation: marquee-right-fast 15s linear infinite;
+  }
+`}</style>
         <div className="absolute inset-0 bg-[url('/circuit-pattern.svg')] bg-center opacity-5"></div>
         <div className="container px-4 mx-auto mb-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
@@ -153,7 +174,7 @@ export default function Home() {
 
         {/* First row - left to right */}
         <div className="relative w-full overflow-hidden mb-8">
-          <div className="animate-marquee-left flex gap-6 whitespace-nowrap">
+          <div className="animate-marquee-left-fast flex gap-6 whitespace-nowrap">
             {[
               {
                 quote: "CollegeSphere helped me find my perfect branch at IIT Bombay. Forever grateful!",
@@ -262,7 +283,7 @@ export default function Home() {
 
         {/* Second row - right to left */}
         <div className="relative w-full overflow-hidden">
-          <div className="animate-marquee-right flex gap-6 whitespace-nowrap">
+          <div className="animate-marquee-right-fast flex gap-6 whitespace-nowrap">
             {[
               {
                 quote: "The one-on-one counseling session was a game-changer for my college selection.",
@@ -624,7 +645,7 @@ export default function Home() {
               style={{ transform: "rotateY(180deg)" }}
             >
               <path
-                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.2c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
                 fill="url(#gradient)"
               />
               <defs>
@@ -770,7 +791,7 @@ export default function Home() {
                     strokeLinejoin="round"
                     className="mx-1"
                   >
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                   </svg>
                   in India
                 </span>

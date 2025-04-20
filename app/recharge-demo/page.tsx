@@ -3,7 +3,9 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { RechargeCreditsModal } from "@/components/recharge-credits-modal"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Coins, CreditCard, History, Zap } from "lucide-react"
+import Link from "next/link"
 
 export default function RechargeDemo() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -18,32 +20,83 @@ export default function RechargeDemo() {
   }
 
   const handleSuccess = (newCredits: number) => {
-    setCredits(newCredits)
+    setCredits(credits + newCredits)
   }
 
   return (
     <div className="container mx-auto py-10 px-4">
-      <Card className="max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle>JEE Predictor Credits</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col items-center gap-4">
-            <div className="text-center mb-4">
-              <p className="text-lg font-medium">Current Balance</p>
-              <p className="text-3xl font-bold">{credits} Credits</p>
-            </div>
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">JEE Predictor Credits</h1>
+          <p className="text-muted-foreground">Manage your credits to access premium features</p>
+        </div>
 
-            <Button onClick={() => setIsModalOpen(true)} className="w-full">
-              Recharge Credits
-            </Button>
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <Card className="relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full -mt-8 -mr-8"></div>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Coins className="mr-2 h-5 w-5" /> Credit Balance
+              </CardTitle>
+              <CardDescription>Your current available credits</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col items-center">
+                <div className="text-5xl font-bold mb-4">{credits}</div>
+                <Button onClick={() => setIsModalOpen(true)} className="w-full" size="lg">
+                  <CreditCard className="mr-2 h-4 w-4" /> Recharge Now
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
-            <p className="text-sm text-muted-foreground text-center mt-2">
-              Credits are used for premium features like mock tests and personalized analysis.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Zap className="mr-2 h-5 w-5" /> Credit Usage
+              </CardTitle>
+              <CardDescription>How to use your credits</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="bg-primary/10 p-2 rounded-full">
+                  <Zap className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-medium">College Predictions</h3>
+                  <p className="text-sm text-muted-foreground">10 credits per prediction</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="bg-primary/10 p-2 rounded-full">
+                  <Zap className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Personalized Analysis</h3>
+                  <p className="text-sm text-muted-foreground">50 credits per analysis</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="bg-primary/10 p-2 rounded-full">
+                  <Zap className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Mock Tests</h3>
+                  <p className="text-sm text-muted-foreground">25 credits per test</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="flex justify-center">
+          <Button variant="outline" asChild>
+            <Link href="/payment-history">
+              <History className="mr-2 h-4 w-4" /> View Payment History
+            </Link>
+          </Button>
+        </div>
+      </div>
 
       <RechargeCreditsModal
         isOpen={isModalOpen}
