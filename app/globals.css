@@ -1,0 +1,419 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 262.1 83.3% 57.8%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 262.1 83.3% 57.8%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 263.4 70% 50.4%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 263.4 70% 50.4%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-[1400px];
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  .container {
+    @apply px-3;
+  }
+}
+
+/* Make tables more responsive */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improve dialog responsiveness */
+@media (max-width: 640px) {
+  [role="dialog"] {
+    @apply max-w-full mx-4;
+  }
+
+  [role="tablist"] {
+    @apply flex-wrap;
+  }
+}
+
+/* Improve mobile form elements */
+@media (max-width: 640px) {
+  .radio-group {
+    @apply flex-col;
+  }
+}
+
+/* Custom animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Animation delay utilities */
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Blob animation */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+/* Gradient text animation */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 3s linear infinite;
+}
+
+/* Custom card hover effect */
+.hover-card {
+  transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.3);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8b5cf6;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7c3aed;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Tab animations */
+.tabs-content-enter {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.tabs-content-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 200ms, transform 200ms;
+}
+
+/* Razorpay z-index fix */
+.razorpay-payment-button,
+.razorpay-checkout-frame,
+.razorpay-backdrop,
+.razorpay-container,
+iframe[src*="razorpay"] {
+  z-index: 100000 !important;
+}
+
+/* Ensure our dialogs don't interfere with Razorpay */
+[data-razorpay-active="true"] [role="dialog"] {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+}
+
+/* Marquee animations */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 40s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 40s linear infinite;
+}
+
+/* Add line-clamp utilities if not provided by Tailwind */
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Improve marquee responsiveness */
+@media (max-width: 768px) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation-duration: 30s;
+  }
+}
+
+@media (max-width: 640px) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation-duration: 20s;
+  }
+}
+
+/* Make dialog animations faster */
+.fast-animation {
+  --animate-duration: 150ms !important;
+}
+
+/* Override the default animation duration for dialogs */
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes contentHide {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+}
+
+[data-state="open"][role="dialog"] {
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-state="closed"][role="dialog"] {
+  animation: contentHide 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Responsive design for small devices (less than 600x1100px) */
+@media (max-width: 600px), (max-height: 1100px) {
+  /* Reduce container padding and margins */
+  .container {
+    @apply px-2 max-w-full;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Make text size adaptable */
+  html {
+    font-size: 14px;
+  }
+
+  /* Reduce heading sizes */
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  h2 {
+    font-size: 1.25rem !important;
+  }
+
+  h3 {
+    font-size: 1.1rem !important;
+  }
+
+  /* Remove box styling for cards on small screens */
+  .card-small-screen {
+    @apply shadow-none border-0 rounded-none bg-transparent p-0;
+  }
+
+  /* Adjust padding for card content */
+  .card-content-small-screen {
+    @apply p-2;
+  }
+
+  /* Reduce button sizes */
+  .btn-small-screen {
+    @apply py-1 px-2 text-sm;
+  }
+
+  /* Reduce table font size */
+  table {
+    font-size: 0.85rem;
+  }
+
+  /* Reduce padding in table cells */
+  td,
+  th {
+    padding: 0.5rem 0.25rem !important;
+  }
+
+  /* Make inputs and form elements smaller */
+  input,
+  select,
+  .select-trigger {
+    height: 2rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Adjust spacing between form elements */
+  .space-y-4 {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+/* Even smaller devices */
+@media (max-width: 375px) {
+  html {
+    font-size: 12px;
+  }
+
+  /* Further reduce padding */
+  .container {
+    @apply px-1;
+  }
+}
